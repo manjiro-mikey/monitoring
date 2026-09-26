@@ -1,0 +1,184 @@
+services:
+
+  # ============================================================
+  # AUTH / ROUTING
+  # ============================================================
+  vmauth:
+    container_name: vmauth
+    image: victoriametrics/vmauth:v1.133.0
+    ports:
+      - "8427:8427"
+    volumes:
+      - ./vmauth/auth.yml:/config/auth.yml:ro
+    command:
+      - "--auth.config=/config/auth.yml"
+    restart: unless-stopped
+    depends_on:
+      - victoriametrics
+      - report
+      - victorialogs
+    mem_limit: 64m
+    cpus: 0.10
+
+  # ============================================================
+  # LIVE METRICS
+  # ============================================================
+  victoriametrics:
+    container_name: victoriametrics
+    image: victoriametrics/victoria-metrics:v1.133.0
+    volumes:
+      - /data/vmetrics-data:/storage
+    command:
+      - "--storageDataPath=/storage"
+      - "--retentionPeriod=24d"
+      - "--selfScrapeInterval=15s"
+      - "--search.maxPointsPerTimeseries=50000"
+      - "--search.minStalenessInterval=5m"
+      - "--vmalert.proxyURL=http://vmalert:8880"
+      - "--memory.allowedPercent=20"
+    restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.35
+
+  # ============================================================
+  # REPORT METRICS
+  # ============================================================
+  report:
+    container_name: report
+    image: victoriametrics/victoria-metrics:v1.133.0
+    volumes:
+      - /data/report-data:/storage
+    command:
+      - "--storageDataPath=/storage"
+      - "--retentionPeriod=365d"
+      - "--selfScrapeInterval=300s"
+      - "--search.maxPointsPerTimeseries=50000"
+      - "--search.minStalenessInterval=5m"
+      - "--vmalert.proxyURL=http://vmalert:8880"
+      - "--memory.allowedPercent=20"
+    restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.30
+
+  # ============================================================
+  # LOG STORAGE
+  # ============================================================
+  victorialogs:
+    container_name: victorialogs
+    image: victoriametrics/victoria-logs:v1.52.0
+    volumes:
+      - /data/vlogs-data:/victoria-logs-data
+    command:
+      - "--storageDataPath=/victoria-logs-data"
+      - "--retentionPeriod=90d"
+      - "--memory.allowedPercent=20"
+    restart: unless-stopped
+    mem_limit: 384m
+    cpus: 0.45
+
+  # ============================================================
+  # ALERT / RECORDING RULES
+  # ============================================================
+  vmalert:
+    container_name: vmalert
+    image: victoriametrics/vmalert:v1.145.0
+    depends_on:
+      - victoriametrics
+      - report
+      - alertmanager
+    volumes:
+      - ./vmalert:/etc/vmalert:ro
+    command:
+      - "--datasource.url=http://victoriametrics:8428"
+      - "--remoteRead.url=http://victoriametrics:8428"
+      - "--remoteWrite.url=http://report:8428"
+      - "--notifier.url=http://alertmanager:9093"
+      - "--rule=/etc/vmalert/*/alerts.yml"
+      - "--evaluationInterval=1m"
+      - "--external.url=https://lottefn.vn"
+      - '--external.alert.source=explore?orgId=1&left={"datasource":"victoriametrics-metrics-datasource","queries":[{"refId":"A","expr":"{{.Expr|queryEscape}}"}]}'
+    restart: unless-stopped
+    mem_limit: 128m
+    cpus: 0.15
+
+  # ============================================================
+  # ALERTMANAGER
+  # ============================================================
+  alertmanager:
+    container_name: alertmanager
+    image: prom/alertmanager:v0.31.1
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+    restart: unless-stopped
+    mem_limit: 64m
+    cpus: 0.10
+
+  # ============================================================
+  # GRAFANA
+  # ============================================================
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:13.2.2
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: "123123"
+      GF_PLUGINS_PREINSTALL: victoriametrics-logs-datasource
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+    restart: unless-stopped
+    mem_limit: 640m
+    cpus: 0.50
+    depends_on:
+      - victoriametrics
+      - victorialogs
+  
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter:latest
+    restart: unless-stopped
+    pid: host
+    ports:
+      - "9100:9100"
+    command:
+      - "--path.rootfs=/host"
+    volumes:
+      - "/:/host:ro,rslave"
+    mem_limit: 64m
+    cpus: 0.10
+
+  vmagent:
+    container_name: vmagent
+    image: victoriametrics/vmagent:v1.145.0
+    restart: unless-stopped
+
+    depends_on:
+      - vmauth
+      - node-exporter
+
+    ports:
+      - "8429:8429"
+    volumes:
+      - ./vmagent/prometheus.yml:/etc/vmagent/prometheus.yml:ro
+      - vmagent-data:/vmagentdata
+
+    command:
+      - "--promscrape.config=/etc/vmagent/prometheus.yml"
+
+      - "--remoteWrite.url=http://vmauth:8427/api/v1/write"
+
+      - "--remoteWrite.basicAuth.username=agent_metrics"
+      - "--remoteWrite.basicAuth.password=CHANGE_ME_AGENT_METRICS"
+
+      - "--remoteWrite.tmpDataPath=/vmagentdata"
+
+    mem_limit: 128m
+    cpus: 0.20
+
+volumes:
+  grafana-data:
+  vmagent-data:
