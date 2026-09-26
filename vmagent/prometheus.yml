@@ -13,3 +13,12 @@ scrape_configs:
         labels:
           environment: "lab"
           host: "monitoring-server"
+  - job_name: "test-servers"
+
+    static_configs:
+
+      - targets:
+          - "172.31.3.94:9100"
+        labels:
+          host: "target-server-01"
+          environment: "uat"
