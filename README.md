@@ -26,13 +26,57 @@ Hệ thống được đóng gói thông qua Docker Compose (`compose.yaml`) bao
 
 ## 2. Yêu cầu hệ thống (Prerequisites)
 
-* Hệ điều hành: Linux/Windows/macOS có hỗ trợ Docker.
-* **Docker** & **Docker Compose** đã được cài đặt.
-* RAM trống tối thiểu: `~2GB` (Hệ thống đã được thiết lập `mem_limit` để tránh tiêu thụ quá nhiều RAM).
+* Hệ điều hành: Linux (Ubuntu/Debian) được khuyến nghị.
+* RAM trống tối thiểu: `~2GB`. Khuyến nghị bật Swap nếu VPS ít RAM.
+
+### 2.1. Cài đặt Docker & Docker Compose
+Nếu server của bạn chưa có Docker, hãy chạy chuỗi lệnh sau để cài đặt (dành cho Ubuntu/Debian):
+
+```bash
+sudo apt update
+sudo apt install -y docker.io docker-compose-v2
+sudo systemctl enable --now docker
+# Thêm user hiện tại vào nhóm docker để không cần dùng sudo khi gõ lệnh docker
+sudo usermod -aG docker $USER
+```
+*(Lưu ý: Bạn có thể cần đăng xuất và đăng nhập lại SSH để quyền usermod có hiệu lực).*
+
+### 2.2. Bổ sung RAM ảo (Swap)
+Do stack Monitoring gồm nhiều thành phần (Grafana, VictoriaMetrics, v.v.), nếu server của bạn có ít RAM (nhỏ hơn 4GB), hãy tạo thêm 2GB Swap để tránh tình trạng tràn RAM (OOM - Out of Memory):
+
+```bash
+# Tạo file swap 2GB
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+# Cấu hình tự động bật swap khi khởi động lại máy
+echo '/swapfile swap swap defaults 0 0' | sudo tee -a /etc/fstab
+
+# Kiểm tra lại xem swap đã nhận chưa
+free -h
+```
 
 ---
 
-## 3. Các bước triển khai
+## 3. Các bước chuẩn bị thư mục (Dành cho Server mới)
+Nếu bạn setup từ đầu trên một máy chủ trắng, hãy tạo các thư mục cần thiết phân quyền tương tự lệnh sau:
+```bash
+sudo mkdir -p /opt/monitoring
+sudo chown -R $USER:$USER /opt/monitoring
+cd /opt/monitoring
+
+# Tạo các thư mục mount cho file config
+mkdir -p vmauth vmalert alertmanager grafana/provisioning/datasources tempo/data
+
+# Tạo các thư mục lưu trữ dữ liệu với quyền root
+sudo mkdir -p /data/vmetrics-data /data/report-data /data/vlogs-data
+```
+
+---
+
+## 4. Khởi động hệ thống
 
 ### Bước 1: Chuẩn bị cấu hình
 1. Kiểm tra file `vmagent/prometheus.yml` để đảm bảo đã cấu hình đúng các mục tiêu (targets) cần thu thập metrics.
