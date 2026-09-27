@@ -22,6 +22,13 @@ users:
           - "/insert/.*"
         url_prefix: "http://victorialogs:9428"
 
+  # OTel applications -> VictoriaLogs
+  - username: "otel_logs"
+    password: "CHANGE_ME_OTEL_LOGS"
+    url_map:
+      - src_paths:
+          - "/insert/opentelemetry/.*"
+        url_prefix: "http://victorialogs:9428"
 
   # ============================================================
   # 3. GRAFANA -> LIVE METRICS
@@ -65,4 +72,11 @@ users:
     url_map:
       - src_paths:
           - "/select/.*"
+        url_prefix: "http://victorialogs:9428"
+  # 6. AGENT VECTOR -> INGEST LOG
+  - username: "vector_logs"
+    password: "YOUR_VECTOR_LOGS_PASSWORD"
+    url_map:
+      - src_paths:
+          - "/insert/.*"
         url_prefix: "http://victorialogs:9428"

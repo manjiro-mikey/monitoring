@@ -1,0 +1,63 @@
+data_dir: /var/lib/vector
+
+sources:
+
+  application_logs:
+    type: file
+    include:
+      - /var/log/apps/*.log
+    read_from: end
+  journald:
+    type: journald
+    current_boot_only: true
+
+transforms:
+
+  normalize_app:
+    type: remap
+    inputs:
+      - application_logs
+    source: |
+      .service = "application"
+      .environment = "lab"
+
+
+  normalize_journal:
+    type: remap
+    inputs:
+      - journald
+    source: |
+      .service = "system"
+      .environment = "lab"
+
+sinks:
+
+  victorialogs:
+    type: http
+    inputs:
+      - normalize_app
+      - normalize_journal
+
+    uri: "http://172.31.9.5:8427/insert/jsonline?_stream_fields=host,source&_msg_field=message"
+
+    method: post
+
+    auth:
+      strategy: basic
+      user: "vector_logs"
+      password: "YOUR_VECTOR_LOGS_PASSWORD"
+
+    encoding:
+      codec: json
+
+    framing:
+      method: newline_delimited
+
+    compression: gzip
+
+    batch:
+      max_bytes: 1000000
+      timeout_secs: 2
+
+    healthcheck:
+      enabled: false
