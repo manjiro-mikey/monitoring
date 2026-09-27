@@ -129,6 +129,7 @@ services:
       GF_PLUGINS_PREINSTALL: victoriametrics-logs-datasource
     volumes:
       - grafana-data:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
     restart: unless-stopped
     mem_limit: 640m
@@ -178,6 +179,25 @@ services:
 
     mem_limit: 128m
     cpus: 0.20
+
+  tempo:
+    image: grafana/tempo:latest
+
+    container_name: tempo
+
+    restart: unless-stopped
+
+    command:
+      - "-config.file=/etc/tempo/tempo.yaml"
+
+    volumes:
+      - ./tempo/tempo.yaml:/etc/tempo/tempo.yaml:ro
+      - ./tempo/data:/var/tempo
+
+    ports:
+      - "3200:3200"
+      - "4317:4317"
+      - "4318:4318"
 
 volumes:
   grafana-data:
