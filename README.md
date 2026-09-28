@@ -81,6 +81,10 @@ sudo chown -R 10001:10001 tempo/data
 # Create folder and add permission for pyroscope
 mkdir -p pyroscope/data
 sudo chown -R 10001:10001 pyroscope/data
+
+# Create folder and add permission for uptime
+mkdir -p uptime-kuma/data
+sudo chown -R 10001:10001 uptime-kuma/data
 ```
 
 ---

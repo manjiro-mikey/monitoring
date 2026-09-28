@@ -210,6 +210,15 @@ services:
     ports:
       - "4040:4040"
 
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - ./uptime-kuma/data:/app/data
+    ports:
+      - "3002:3001"
+
 volumes:
   grafana-data:
   vmagent-data:
