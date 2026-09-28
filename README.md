@@ -72,6 +72,11 @@ mkdir -p vmauth vmalert alertmanager grafana/provisioning/datasources tempo/data
 
 # Tạo các thư mục lưu trữ dữ liệu với quyền root
 sudo mkdir -p /data/vmetrics-data /data/report-data /data/vlogs-data
+
+# Tạo folder mount dữ liệu cho tempo tránh lỗi khi start tempo
+sudo mkdir -p tempo/data/wal
+sudo mkdir -p tempo/data/blocks
+sudo chown -R 10001:10001 tempo/data
 ```
 
 ---
