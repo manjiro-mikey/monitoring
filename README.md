@@ -77,6 +77,10 @@ sudo mkdir -p /data/vmetrics-data /data/report-data /data/vlogs-data
 sudo mkdir -p tempo/data/wal
 sudo mkdir -p tempo/data/blocks
 sudo chown -R 10001:10001 tempo/data
+
+# Create folder and add permission for pyroscope
+mkdir -p pyroscope/data
+sudo chown -R 10001:10001 pyroscope/data
 ```
 
 ---
