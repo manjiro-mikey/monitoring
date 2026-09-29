@@ -10,6 +10,19 @@ sources:
   journald:
     type: journald
     current_boot_only: true
+  system_metrics:
+    type: host_metrics
+    scrape_interval_secs: 15
+    namespace: "node" # namespace trong prometheus để có thể dùng node_cpu_seconds_total thay vì bắt buộc phải dùng host_cpu_seconds_total
+    #optional
+    filesystem:
+      devices:
+        excludes: ["/var/lib/docker/**"]
+      mountPoints:
+        excludes: ["/var/lib/docker/**"]
+  internal_metrics:
+    type: internal_metrics
+    scrape_interval_secs: 15
 
 transforms:
 
@@ -59,5 +72,17 @@ sinks:
       max_bytes: 1000000
       timeout_secs: 2
 
+    healthcheck:
+      enabled: false
+  victoriametrics:
+    type: prometheus_remote_write
+    inputs:
+      - system_metrics
+      - internal_metrics
+    endpoint: "http://172.31.4.107:8427/api/v1/write"
+    auth:
+      strategy: basic
+      user: "agent_metrics"
+      password: "CHANGE_ME_AGENT_METRICS"
     healthcheck:
       enabled: false
