@@ -38,3 +38,21 @@ datasources:
           matcherRegex: trace_id[":\s]+([a-f0-9]{32})
           name: Trace
           url: $$${__value.raw}
+
+  - name: Tempo
+    uid: tempo
+    type: tempo
+    access: proxy
+    url: http://tempo:3200
+    jsonData:
+      tracesToProfiles:
+        datasourceUid: pyroscope
+        tags:
+          - key: 'service.name'
+            value: 'service_name'
+
+  - name: Pyroscope
+    uid: pyroscope
+    type: pyroscope
+    access: proxy
+    url: http://pyroscope:4040
