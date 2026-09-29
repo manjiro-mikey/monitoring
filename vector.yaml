@@ -20,6 +20,9 @@ sources:
         excludes: ["/var/lib/docker/**"]
       mountPoints:
         excludes: ["/var/lib/docker/**"]
+  internal_metrics:
+    type: internal_metrics
+    scrape_interval_secs: 15
 
 transforms:
 
@@ -75,6 +78,7 @@ sinks:
     type: prometheus_remote_write
     inputs:
       - system_metrics
+      - internal_metrics
     endpoint: "http://172.31.4.107:8427/api/v1/write"
     auth:
       strategy: basic

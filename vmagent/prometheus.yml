@@ -22,3 +22,15 @@ scrape_configs:
         labels:
           host: "target-server-01"
           environment: "uat"
+
+  - job_name: "victoriametrics"
+    static_configs:
+      - targets: ["victoriametrics:8428"]
+
+  - job_name: "victorialogs"
+    static_configs:
+      - targets: ["victorialogs:9428"]
+
+  - job_name: "vmagent"
+    static_configs:
+      - targets: ["vmagent:8429"]
