@@ -102,7 +102,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Busy state of all CPU cores together",
       "fieldConfig": {
@@ -169,7 +169,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "(sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode!=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))) * 100",
@@ -187,7 +187,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Busy state of all CPU cores together (5 min average)",
       "fieldConfig": {
@@ -254,7 +254,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "avg(node_load5{instance=\"$node\",job=\"$job\"}) /  count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)) * 100",
           "format": "time_series",
@@ -270,7 +270,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Busy state of all CPU cores together (15 min average)",
       "fieldConfig": {
@@ -337,7 +337,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "avg(node_load15{instance=\"$node\",job=\"$job\"}) /  count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)) * 100",
           "hide": false,
@@ -352,7 +352,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Non available RAM memory",
       "fieldConfig": {
@@ -411,7 +411,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "((node_memory_total_bytes{instance=\"$node\",job=\"$job\"} - node_memory_free_bytes{instance=\"$node\",job=\"$job\"}) / (node_memory_total_bytes{instance=\"$node\",job=\"$job\"} )) * 100",
@@ -425,7 +425,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "100 - ((node_memory_available_bytes{instance=\"$node\",job=\"$job\"} * 100) / node_memory_total_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
@@ -441,7 +441,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Used Swap",
       "fieldConfig": {
@@ -508,7 +508,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "((node_memory_swap_total_bytes{instance=\"$node\",job=\"$job\"} - node_memory_swap_free_bytes{instance=\"$node\",job=\"$job\"}) / (node_memory_swap_total_bytes{instance=\"$node\",job=\"$job\"} )) * 100",
           "intervalFactor": 1,
@@ -522,7 +522,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Used Root FS",
       "fieldConfig": {
@@ -589,7 +589,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "100 - ((node_filesystem_free_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"} * 100) / node_filesystem_total_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"})",
           "format": "time_series",
@@ -604,7 +604,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Total number of CPU cores",
       "fieldConfig": {
@@ -668,7 +668,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu))",
           "interval": "",
@@ -684,7 +684,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "System uptime",
       "fieldConfig": {
@@ -750,7 +750,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "node_uptime{instance=\"$node\",job=\"$job\"}",
@@ -766,7 +766,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Total RootFS",
       "fieldConfig": {
@@ -835,7 +835,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_filesystem_total_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"}",
           "format": "time_series",
@@ -851,7 +851,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Total RAM",
       "fieldConfig": {
@@ -916,7 +916,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_total_bytes{instance=\"$node\",job=\"$job\"}",
           "intervalFactor": 1,
@@ -930,7 +930,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Total SWAP",
       "fieldConfig": {
@@ -995,7 +995,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_swap_total_bytes{instance=\"$node\",job=\"$job\"}",
           "intervalFactor": 1,
@@ -1035,7 +1035,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Basic CPU info",
       "fieldConfig": {
@@ -1225,7 +1225,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"system\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -1240,7 +1240,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"user\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -1255,7 +1255,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"iowait\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -1269,7 +1269,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=~\".*irq\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -1283,7 +1283,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq'}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -1297,7 +1297,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -1315,7 +1315,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Basic memory usage",
       "fieldConfig": {
@@ -1767,7 +1767,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_total_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -1780,7 +1780,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_total_bytes{instance=\"$node\",job=\"$job\"} - node_memory_free_bytes{instance=\"$node\",job=\"$job\"} - (node_memory_cached_bytes{instance=\"$node\",job=\"$job\"} + node_memory_buffers_bytes{instance=\"$node\",job=\"$job\"} + node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
@@ -1793,7 +1793,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_cached_bytes{instance=\"$node\",job=\"$job\"} + node_memory_buffers_bytes{instance=\"$node\",job=\"$job\"} + node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -1805,7 +1805,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_free_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -1817,7 +1817,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "(node_memory_swap_total_bytes{instance=\"$node\",job=\"$job\"} - node_memory_swap_free_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
@@ -1833,7 +1833,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Basic network info per interface",
       "fieldConfig": {
@@ -2273,7 +2273,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_network_receive_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
           "format": "time_series",
@@ -2285,7 +2285,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_network_transmit_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
           "format": "time_series",
@@ -2301,7 +2301,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "Disk space used of all filesystems mounted",
       "fieldConfig": {
@@ -2385,7 +2385,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "100 - ((node_filesystem_free_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'} * 100) / node_filesystem_total_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'})",
           "format": "time_series",
@@ -2427,7 +2427,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "",
       "fieldConfig": {
@@ -2637,7 +2637,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"system\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -2652,7 +2652,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"user\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -2666,7 +2666,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"nice\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -2680,7 +2680,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"iowait\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -2694,7 +2694,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"irq\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -2708,7 +2708,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"softirq\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -2722,7 +2722,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"steal\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -2736,7 +2736,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
@@ -2755,7 +2755,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "",
       "fieldConfig": {
@@ -3145,7 +3145,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_total_bytes{instance=\"$node\",job=\"$job\"} - node_memory_free_bytes{instance=\"$node\",job=\"$job\"} - node_memory_buffers_bytes{instance=\"$node\",job=\"$job\"} - node_memory_cached_bytes{instance=\"$node\",job=\"$job\"} - node_memory_Slab_bytes{instance=\"$node\",job=\"$job\"} - node_memory_PageTables_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapCached_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -3158,7 +3158,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_PageTables_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -3171,7 +3171,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_SwapCached_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -3183,7 +3183,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_Slab_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -3196,7 +3196,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_cached_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -3209,7 +3209,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_buffers_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -3222,7 +3222,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_free_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -3235,7 +3235,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "(node_memory_swap_total_bytes{instance=\"$node\",job=\"$job\"} - node_memory_swap_free_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
@@ -3248,7 +3248,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_memory_HardwareCorrupted_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -3265,7 +3265,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "fieldConfig": {
         "defaults": {
@@ -3424,7 +3424,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_network_receive_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
           "format": "time_series",
@@ -3436,7 +3436,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_network_transmit_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
           "format": "time_series",
@@ -3452,7 +3452,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "",
       "fieldConfig": {
@@ -3540,7 +3540,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_filesystem_total_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'} - node_filesystem_free_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
           "format": "time_series",
@@ -3556,7 +3556,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "",
       "fieldConfig": {
@@ -3971,7 +3971,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_disk_reads_completed_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
           "intervalFactor": 4,
@@ -3982,7 +3982,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_disk_writes_completed_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
           "intervalFactor": 1,
@@ -3997,7 +3997,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "",
       "fieldConfig": {
@@ -4199,7 +4199,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_disk_read_bytes_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
           "format": "time_series",
@@ -4212,7 +4212,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_disk_written_bytes_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
           "format": "time_series",
@@ -4229,7 +4229,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "fieldConfig": {
         "defaults": {
@@ -4316,7 +4316,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_load1{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -4328,7 +4328,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_load5{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -4340,7 +4340,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_load15{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -4382,7 +4382,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "The number (after merges) of I/O requests completed per second for the device",
       "fieldConfig": {
@@ -4782,7 +4782,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_disk_reads_completed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
           "intervalFactor": 4,
@@ -4793,7 +4793,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_disk_writes_completed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
           "intervalFactor": 1,
@@ -4808,7 +4808,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "The number of bytes read from or written to the device per second",
       "fieldConfig": {
@@ -5208,7 +5208,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_disk_read_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
           "format": "time_series",
@@ -5220,7 +5220,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_disk_written_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
           "format": "time_series",
@@ -5262,7 +5262,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "",
       "fieldConfig": {
@@ -5350,7 +5350,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_filesystem_free_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
           "format": "time_series",
@@ -5364,7 +5364,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_filesystem_free_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
           "format": "time_series",
@@ -5377,7 +5377,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "node_filesystem_total_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
           "format": "time_series",
@@ -5394,7 +5394,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "description": "",
       "fieldConfig": {
@@ -5482,7 +5482,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "editorMode": "code",
           "expr": "node_filesystem_free_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
@@ -5527,7 +5527,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "fieldConfig": {
         "defaults": {
@@ -5687,7 +5687,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_network_receive_packets_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
           "format": "time_series",
@@ -5700,7 +5700,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_network_transmit_packets_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
           "format": "time_series",
@@ -5717,7 +5717,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_MIMIR}"
+        "uid": "victoriametrics-live"
       },
       "fieldConfig": {
         "defaults": {
@@ -5817,7 +5817,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_network_receive_errs_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
           "format": "time_series",
@@ -5829,7 +5829,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "victoriametrics-live"
           },
           "expr": "irate(node_network_transmit_errs_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
           "format": "time_series",
@@ -5858,7 +5858,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "victoriametrics-live"
         },
         "definition": "label_values(node_uptime, job)",
         "hide": 0,
@@ -5884,7 +5884,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "victoriametrics-live"
         },
         "definition": "label_values(node_uptime{job=\"$job\"}, instance)",
         "hide": 0,
