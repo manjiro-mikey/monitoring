@@ -66,7 +66,7 @@
           "description": "",
           "id": 1,
           "links": [],
-          "title": "Logs in ${namespace} for ${container}",
+          "title": "Logs in ${host} for ${container}",
           "vizConfig": {
             "group": "logs",
             "kind": "VizConfig",
@@ -116,7 +116,7 @@
                       "spec": {
                         "editorMode": "code",
                         "expr": "_stream: {host=~\"$host\",container_name=~\"$container\"} $query | stats count()",
-                        "legendFormat": "${namespace} ${container}",
+                        "legendFormat": "${host} ${container}",
                         "queryType": "statsRange"
                       },
                       "version": "v0"
@@ -132,7 +132,7 @@
           "description": "",
           "id": 2,
           "links": [],
-          "title": "Logs in ${namespace} for ${container}",
+          "title": "Logs in ${host} for ${container}",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -249,7 +249,7 @@
           "description": "",
           "id": 3,
           "links": [],
-          "title": "Count by $count_by",
+          "title": "Count by $container",
           "vizConfig": {
             "group": "piechart",
             "kind": "VizConfig",
@@ -422,10 +422,10 @@
           "allowCustomValue": true,
           "current": {
             "text": [
-              "All"
+              "ip-172-31-17-83"
             ],
             "value": [
-              "$__all"
+              "ip-172-31-17-83"
             ]
           },
           "definition": "",
@@ -462,10 +462,12 @@
           "allowCustomValue": true,
           "current": {
             "text": [
-              "All"
+              "alertmanager",
+              "grafana"
             ],
             "value": [
-              "$__all"
+              "alertmanager",
+              "grafana"
             ]
           },
           "definition": "_stream: {host=~\"$host\"} | stats by (container_name) count()",
