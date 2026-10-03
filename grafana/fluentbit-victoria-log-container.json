@@ -50,6 +50,7 @@
                       "spec": {
                         "editorMode": "code",
                         "expr": "_stream: {host=~\"$host\",container_name=~\"$container\"} $query | sort desc | limit 100",
+                        "legendFormat": "",
                         "queryType": "range"
                       },
                       "version": "v0"
@@ -387,7 +388,7 @@
         "1d"
       ],
       "fiscalYearStartMonth": 0,
-      "from": "now-5m",
+      "from": "now-30m",
       "hideTimepicker": false,
       "timezone": "browser",
       "to": "now"
@@ -420,24 +421,28 @@
         "spec": {
           "allowCustomValue": true,
           "current": {
-            "text": "ip-172-31-17-83",
-            "value": "ip-172-31-17-83"
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
           },
           "definition": "",
           "hide": "dontHide",
-          "includeAll": false,
-          "multi": false,
+          "includeAll": true,
+          "multi": true,
           "name": "host",
           "options": [],
           "query": {
             "datasource": {
-              "name": "victorialogs"
+              "name": "${DS_VICTORIALOGS}"
             },
             "group": "victoriametrics-logs-datasource",
             "kind": "DataQuery",
             "spec": {
               "field": "host",
-              "limit": 100,
+              "limit": 500,
               "query": "",
               "refId": "VictoriaLogsVariableQueryEditor-VariableQuery",
               "type": "fieldValue"
@@ -457,15 +462,13 @@
           "allowCustomValue": true,
           "current": {
             "text": [
-              "grafana",
-              "pyroscope"
+              "All"
             ],
             "value": [
-              "grafana",
-              "pyroscope"
+              "$__all"
             ]
           },
-          "definition": "",
+          "definition": "_stream: {host=~\"$host\"} | stats by (container_name) count()",
           "hide": "dontHide",
           "includeAll": true,
           "multi": true,
@@ -479,14 +482,14 @@
             "kind": "DataQuery",
             "spec": {
               "field": "container_name",
-              "limit": 25,
-              "query": "",
+              "limit": 50,
+              "query": "_stream: {host=~\"$host\"} | stats by (container_name) count()",
               "refId": "VictoriaLogsVariableQueryEditor-VariableQuery",
               "type": "fieldValue"
             },
             "version": "v0"
           },
-          "refresh": "onDashboardLoad",
+          "refresh": "onTimeRangeChanged",
           "regex": "",
           "regexApplyTo": "value",
           "skipUrlSync": false,
